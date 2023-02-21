@@ -1,11 +1,92 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import React, { useEffect, useState } from "react";
+import { getHexColor } from "@/components/utils";
+import axios from "axios";
+import uuid from "react-uuid";
+import Confetti from "react-confetti";
+import Head from "next/head";
+import { COLOURS } from "@/components/constants";
+import Wordsearch from "@/components/wordsearch";
+import Footer from "@/components/footer";
+import BottomWave from "@/components/waves/Bottom";
 
 export default function Home() {
+  const [gridSize, setGridSize] = useState(15);
+  const [grid, setGrid] = useState<any>();
+  const [words, setWords] = useState<any>();
+  const [isError, setIsError] = useState<any>(false);
+  const [isLoading, setIsLoading] = useState<any>(false);
+  const [firstSquare, setFirstSquare] = useState<any>();
+  const [lastSquare, setLastSquare] = useState<any>();
+  const [windowSize, setWindowSize] = useState<any>({
+    width: 800,
+    height: 800,
+  });
+  const [isComplete, setIsComplete] = useState<any>(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    if (!grid) {
+      axios
+        .get(`https://wordsearch-api.onrender.com/api/grid/${gridSize}`)
+        .then((response) => {
+          setIsLoading(false);
+          setGrid(response.data.grid);
+          setWords(response.data.words);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          setIsError(true);
+        });
+    }
+    const onResize = (event: any) => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+    window.addEventListener("resize", onResize);
+    onResize(null);
+  }, [null]);
+
+  useEffect(() => {
+    if (words) {
+      setIsComplete(
+        !words.find((item: any) => {
+          if (!item.found) {
+            return true;
+          }
+        })
+      );
+    }
+  }, [words]);
+
+  const onDragStart = (squ: any) => {
+    setLastSquare(null);
+    setFirstSquare(squ);
+  };
+
+  const onDragStop = (squ: any) => {
+    setLastSquare(squ);
+  };
+
+  useEffect(() => {
+    if (firstSquare && lastSquare) {
+      const random = Math.floor(Math.random() * COLOURS.length);
+      const clone = [...words];
+      clone.forEach((item: any) => {
+        const itemfirstIndex = item.startIndex;
+        const itemLastIndex = item.endIndex;
+        if (
+          itemfirstIndex === firstSquare.id &&
+          itemLastIndex === lastSquare.id
+        ) {
+          item.found = true;
+          item.colour = COLOURS[random];
+          setWords(clone);
+        }
+      });
+    }
+  }, [firstSquare, lastSquare]);
+
+  if (isError) return <div>ERROR</div>;
+
   return (
     <>
       <Head>
@@ -14,110 +95,60 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
+      {isComplete && (
+        <Confetti width={windowSize.width} height={windowSize.height} />
+      )}
+      <main>
+        <section id="game-section" className="py-2 md:pt-5 pb-[150px]">
+          <div className="container flex justify-center items-center lg:items-start flex-col gap-5 p-2 md:p-5 lg:flex-row max-w-[1200px]">
+            <div
+              id="grid"
+              className="bg-white max-w-[750px] w-full aspect-square flex justify-center items-center rounded-xl overflow-hidden"
             >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
+              {isLoading && (
+                <div>
+                  <span className="loader"></span>
+                </div>
+              )}
+              {grid && !isLoading && (
+                <Wordsearch
+                  data={grid}
+                  words={words}
+                  grigSize={gridSize}
+                  onDragStart={onDragStart}
+                  onDragStop={onDragStop}
+                />
+              )}
+            </div>
+            <div
+              id="words"
+              className="basis-1/1 lg:basis-1/3 flex flex-wrap bg-white rounded-xl p-5"
+            >
+              {words && (
+                <ul className="inline-block">
+                  {words.map(({ word, found, colour }: any) => {
+                    return (
+                      <li
+                        key={uuid()}
+                        className={`${
+                          found ? "line-through" : ""
+                        }  py-1 px-2 rounded-lg text-sm inline-flex flex-wrap gap-10 mb-2 mr-2`}
+                        style={{
+                          backgroundColor: getHexColor(colour),
+                        }}
+                      >
+                        {word}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
           </div>
-        </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
+          <BottomWave colour="fill-black" />
+        </section>
       </main>
+      <Footer />
     </>
-  )
+  );
 }
