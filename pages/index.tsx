@@ -132,7 +132,7 @@ export default function Home() {
                         key={uuid()}
                         className={`${
                           found ? "line-through" : ""
-                        }  py-1 px-2 rounded-lg text-sm inline-flex flex-wrap gap-10 mb-2 mr-2`}
+                        }  py-1 px-2 rounded-lg text-sm inline-flex flex-wrap gap-10 mb-2 mr-2 capitalize`}
                         style={{
                           backgroundColor: getHexColor(colour),
                         }}
