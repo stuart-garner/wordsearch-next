@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@formspree/react': ^2.4.1
   '@next/font': 13.1.6
+  '@prismicio/types': ^0.2.7
   '@types/node': 18.14.0
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
@@ -36,6 +37,7 @@ dependencies:
 
 devDependencies:
   '@formspree/react': 2.4.1_biqbaboplfbrettd7655fr4n2y
+  '@prismicio/types': 0.2.7
   autoprefixer: 10.4.13_postcss@8.4.21
   axios: 1.3.3
   framer-motion: 9.0.6_biqbaboplfbrettd7655fr4n2y
@@ -499,6 +501,11 @@ packages:
       tiny-glob: 0.2.9
       tslib: 2.5.0
     dev: false
+
+  /@prismicio/types/0.2.7:
+    resolution: {integrity: sha512-xHPBWg+lPcl8U97VB/2oYK3MJlQoVPZq91hbeQO8WRyvq+zgpNST3xFOTk8SkQpgoH6wd50AxGZELvPrpojajQ==}
+    engines: {node: '>=12.7.0'}
+    dev: true
 
   /@rushstack/eslint-patch/1.2.0:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}

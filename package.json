@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@formspree/react": "^2.4.1",
+    "@prismicio/types": "^0.2.7",
     "autoprefixer": "^10.4.13",
     "axios": "^1.3.3",
     "framer-motion": "^9.0.6",
