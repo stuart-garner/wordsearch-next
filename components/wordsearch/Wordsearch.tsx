@@ -121,8 +121,10 @@ class Wordsearch extends React.Component<GridPropsType> {
   }
 
   shouldComponentUpdate(nextProps: GridPropsType) {
+    console.log("TEST - ", nextProps.words === this.props.words);
     if (nextProps.words !== this.props.words) {
       this.foundLines.clear();
+
       nextProps.words.forEach((item: any) => {
         if (item.found) {
           this.foundLines.lineStyle({

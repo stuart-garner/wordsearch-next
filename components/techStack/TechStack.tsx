@@ -1,7 +1,9 @@
 import React from "react";
 import Formspree from "../logos/Formspree";
 import Next from "../logos/Next";
+import Pixi from "../logos/Pixi";
 import Prismic from "../logos/Prismic";
+import RenderLogo from "../logos/RenderLogo";
 import Tailwind from "../logos/Tailwind";
 import TypeScript from "../logos/TypeScript";
 import Vercel from "../logos/Vercel";
@@ -13,15 +15,17 @@ function TechStack() {
         <span className="flex flex-col items-center gap-5 xl:flex-row">
           <h5>Built with:</h5>
           <Next style="tech-stack-logo" />
+          <Pixi style="tech-stack-logo" />
           <TypeScript style="tech-stack-logo" />
           <Tailwind style="tech-stack-logo" />
         </span>
         <span className="flex flex-col items-center gap-5 xl:flex-row">
           <h5>Powered by:</h5>
-          <Prismic style="tech-stack-logo" />
+          {/*<Prismic style="tech-stack-logo" />*/}
           <Formspree style="tech-stack-logo" />
           <h5>Hosted by:</h5>
           <Vercel style="tech-stack-logo" />
+          <RenderLogo style="tech-stack-logo" />
         </span>
       </div>
     </div>

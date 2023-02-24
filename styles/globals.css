@@ -85,7 +85,7 @@
   }
 
   .portfolio-tech-stack-logo {
-    @apply h-full w-auto fill-black stroke-black opacity-[50%];
+    @apply h-full w-auto fill-black stroke-black opacity-[50%] h-[20px];
   }
 
   .social-icons {
