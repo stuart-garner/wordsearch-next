@@ -45,7 +45,7 @@ class Wordsearch extends React.Component<GridPropsType> {
       });
       this.mainContainer = new PIXI.Container();
       this.mainContainer.eventMode = "dynamic";
-      this.mainContainer.on("mousemove", this.onMouseMove);
+      this.mainContainer.on("pointermove", this.onMouseMove);
 
       this.app.stage.addChild(this.mainContainer);
       this.gridRef.current.appendChild(this.app.view);
@@ -78,7 +78,7 @@ class Wordsearch extends React.Component<GridPropsType> {
 
         const style = new PIXI.TextStyle({
           fontFamily: ["Helvetica", "Arial", "sans-serif"],
-          fontSize: 16,
+          fontSize: window.innerWidth < 768 ? 12 : 16,
         });
         const basicText = new PIXI.Text(text, style);
         basicText.x = this.squareSize / 2;

@@ -1,4 +1,1 @@
-export const getHexColor = (color?: string) => {
-  const hex = color?.slice(2, 8);
-  return `#${hex}`;
-};
+export const getHexColor = (color: string) => `#${color.slice(2, 8)}`;
