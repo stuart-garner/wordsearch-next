@@ -8,6 +8,7 @@ import RenderIf from "@/components/renderIf";
 import WordSearchSection from "@/components/sections/WordSearchSection";
 import reducer, { initialState } from "@/reducers/gameReducer";
 import { GameActionKind } from "@/types/GameTypes";
+import Popup from "@/components/popup";
 
 const Home = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -21,6 +22,7 @@ const Home = () => {
     windowSize,
     isError,
     isComplete,
+    resetGame,
   } = state;
 
   useEffect(() => {
@@ -35,6 +37,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    console.log("grid", grid);
     if (!grid) {
       dispatch({ type: GameActionKind.LOAD_GAME_DATA_REQUEST });
       axios
@@ -59,16 +62,18 @@ const Home = () => {
 
   useEffect(() => {
     if (words) {
-      const allWordsFound = words.find((item: any) => {
-        if (!item.found) {
-          return true;
+      const allWordsFound = words.filter((item: any) => {
+        if (item.found) {
+          return item;
         }
       });
 
-      if (allWordsFound)
+      if (allWordsFound.length === words.length) {
         dispatch({
           type: GameActionKind.GAME_COMPLETE,
+          payload: true,
         });
+      }
     }
   }, [words]);
 
@@ -87,6 +92,12 @@ const Home = () => {
     dispatch({
       type: GameActionKind.SET_LAST_SQUARE,
       payload: squ,
+    });
+  };
+
+  const onRestart = () => {
+    dispatch({
+      type: GameActionKind.RESET_GAME,
     });
   };
 
@@ -140,7 +151,23 @@ const Home = () => {
       </Head>
 
       <RenderIf isTrue={isComplete}>
-        <Confetti width={windowSize.width} height={windowSize.height} />
+        <>
+          <Popup>
+            <div className="flex flex-col justify-center items-center gap-5">
+              <h2 className="m-0">Congratulations!</h2>
+              <div>
+                <p className="text-center">You have found all the words.</p>
+                <p className="text-center">
+                  Click below to resart with a new set of words.
+                </p>
+              </div>
+              <button className="button" onClick={onRestart}>
+                Restart
+              </button>
+            </div>
+          </Popup>
+          <Confetti width={windowSize.width} height={windowSize.height} />
+        </>
       </RenderIf>
 
       <DefaultLayout>
