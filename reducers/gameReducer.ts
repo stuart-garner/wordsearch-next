@@ -10,6 +10,7 @@ export const initialState: StateType = {
   lastSquare: null,
   windowSize: { width: 800, height: 800 },
   isComplete: false,
+  resetGame: true,
 };
 
 const reducer = (state: StateType, action: GameAction): StateType => {
@@ -22,6 +23,7 @@ const reducer = (state: StateType, action: GameAction): StateType => {
         ...state,
         isLoading: false,
         grid: payload,
+        resetGame: false,
       };
     case GameActionKind.LOAD_GAME_DATA_ERROR:
       return { ...state, isLoading: false };
@@ -35,6 +37,8 @@ const reducer = (state: StateType, action: GameAction): StateType => {
       return { ...state, windowSize: payload };
     case GameActionKind.SET_WORDS:
       return { ...state, words: payload };
+    case GameActionKind.RESET_GAME:
+      return { ...initialState, resetGame: true };
     default:
       throw new Error();
   }
