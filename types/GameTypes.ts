@@ -7,6 +7,7 @@ export enum GameActionKind {
   SET_FIRST_SQUARE = "SET_FIRST_SQUARE",
   SET_LAST_SQUARE = "SET_LAST_SQUARE",
   SET_WORDS = "SET_WORDS",
+  RESET_GAME = "RESET_GAME",
 }
 
 export interface GameAction {
@@ -29,4 +30,5 @@ export type StateType = {
   lastSquare: any;
   windowSize: WindowSizeType;
   isComplete: boolean;
+  resetGame: boolean;
 };
