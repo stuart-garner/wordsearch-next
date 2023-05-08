@@ -3,7 +3,7 @@ import RenderIf from "../renderIf";
 import Wordsearch from "../wordsearch";
 import BottomWave from "../waves/Bottom";
 import uuid from "react-uuid";
-import { getHexColor } from "../utils";
+import { getHexColor, shuffle } from "../utils";
 
 type PropType = {
   isLoading: boolean;
@@ -16,6 +16,11 @@ type PropType = {
 
 const WordSearchSection = (props: PropType) => {
   const { isLoading, grid, words, onDragStart, onDragStop, gridSize } = props;
+
+  const placeholderWidths = [
+    100, 80, 60, 100, 60, 80, 80, 70, 100, 60, 100, 80, 70, 100, 50, 70, 80, 80,
+    70, 100, 70,
+  ];
 
   return (
     <section id="game-section" className="pt-[60px] pb-[150px]">
@@ -61,6 +66,21 @@ const WordSearchSection = (props: PropType) => {
                     >
                       {word}
                     </li>
+                  );
+                })}
+              </ul>
+            </RenderIf>
+            <RenderIf isTrue={!words}>
+              <ul className="inline-block">
+                {shuffle(placeholderWidths).map((width) => {
+                  return (
+                    <li
+                      key={uuid()}
+                      className="py-0 px-0 rounded-lg text-sm inline-flex flex-wrap gap-10 mb-1 mr-2 capitalize placeholder"
+                      style={{
+                        width: `${width}px`,
+                      }}
+                    ></li>
                   );
                 })}
               </ul>
