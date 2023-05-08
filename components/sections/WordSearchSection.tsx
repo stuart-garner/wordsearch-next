@@ -41,7 +41,7 @@ const WordSearchSection = (props: PropType) => {
         </div>
         <div className="basis-1/1 lg:basis-1/3 flex flex-col gap-5">
           <div id="words" className=" flex flex-wrap bg-white rounded-xl p-5">
-            <h2 className="text-xl mb-5">Find The Random Words:</h2>
+            <h2 className="text-xl mb-5">Find these words:</h2>
 
             <RenderIf isTrue={words}>
               <ul className="inline-block">
