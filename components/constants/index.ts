@@ -6,5 +6,5 @@ export const COLOURS = [
   "0x0000ff",
   "0xff9900",
   "0x00aaFF",
-  "0x99ff99",
+  "0xAEAEAE",
 ];

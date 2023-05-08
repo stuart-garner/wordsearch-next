@@ -12,6 +12,7 @@ import Popup from "@/components/popup";
 
 const Home = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [colourIndex, setColourIndex] = useState(0);
   const {
     grid,
     gridSize,
@@ -37,7 +38,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log("grid", grid);
     if (!grid) {
       dispatch({ type: GameActionKind.LOAD_GAME_DATA_REQUEST });
       axios
@@ -103,7 +103,6 @@ const Home = () => {
 
   useEffect(() => {
     if (firstSquare && lastSquare) {
-      const random = Math.floor(Math.random() * COLOURS.length);
       const wordsClone = [...words];
       wordsClone.forEach((item: any) => {
         const itemfirstIndex = item.startIndex;
@@ -113,7 +112,11 @@ const Home = () => {
           itemLastIndex === lastSquare.id
         ) {
           item.found = true;
-          item.colour = COLOURS[random];
+          item.colour = COLOURS[colourIndex];
+          setColourIndex(
+            colourIndex === COLOURS.length - 1 ? 0 : colourIndex + 1
+          );
+
           dispatch({
             type: GameActionKind.SET_WORDS,
             payload: wordsClone,
@@ -121,7 +124,7 @@ const Home = () => {
         }
       });
     }
-  }, [firstSquare, lastSquare, words]);
+  }, [firstSquare, lastSquare]);
 
   return (
     <>
