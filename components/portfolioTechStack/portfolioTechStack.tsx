@@ -95,7 +95,7 @@ function PortfolioTechStack({
   mui,
 }: PropTypes) {
   return (
-    <div className="flex flex-wrap w-full items-center justify-start gap-5 pt-10">
+    <div className="flex flex-wrap w-full items-center justify-start gap-5 pt-0">
       {css && <CSSLogo style="portfolio-tech-stack-logo" />}
       {express && <Express style="portfolio-tech-stack-logo" />}
       {flow && <FlowLogo style="portfolio-tech-stack-logo" />}
