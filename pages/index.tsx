@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
 import axios from "axios";
-import Confetti from "react-confetti";
+
 import Head from "next/head";
 import { COLOURS } from "@/components/constants";
 import DefaultLayout from "@/templates/defaultLayout";
@@ -121,7 +121,7 @@ const Home = () => {
         }
       });
     }
-  }, [firstSquare, lastSquare]);
+  }, [firstSquare, lastSquare, words]);
 
   return (
     <>
@@ -151,23 +151,11 @@ const Home = () => {
       </Head>
 
       <RenderIf isTrue={isComplete}>
-        <>
-          <Popup>
-            <div className="flex flex-col justify-center items-center gap-5">
-              <h2 className="m-0">Congratulations!</h2>
-              <div>
-                <p className="text-center">You have found all the words.</p>
-                <p className="text-center">
-                  Click below to resart with a new set of words.
-                </p>
-              </div>
-              <button className="button" onClick={onRestart}>
-                Restart
-              </button>
-            </div>
-          </Popup>
-          <Confetti width={windowSize.width} height={windowSize.height} />
-        </>
+        <Popup
+          width={windowSize.width}
+          height={windowSize.height}
+          onRestart={onRestart}
+        ></Popup>
       </RenderIf>
 
       <DefaultLayout>
