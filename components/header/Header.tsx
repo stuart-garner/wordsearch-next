@@ -20,7 +20,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className={`nav-bar ${show && "show"}`}>
+    <header className={`nav-bar ${show && "show"} pointer-events-none`}>
       <Link href="/" scroll={false} aria-label="Link to home page">
         <span className="m-0 align-middle text-xl ">[SG]</span>
       </Link>
