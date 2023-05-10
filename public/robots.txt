@@ -4,4 +4,4 @@ Disallow: /admin/
 User-agent: *
 Allow: /
 
-Sitemap: https://www.stuargarner.dev/sitemap.xml
+Sitemap: https://wordsearch-ui.vercel.app/sitemap.xml
